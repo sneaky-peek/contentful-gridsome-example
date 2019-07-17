@@ -6,8 +6,8 @@
 
 module.exports = {
   siteName: 'Contentful + Gridsome Live Preview',
-  host: process.env.JAM_PREVIEW ? '0.0.0.0' : 'localhost',
-  port: '8080',
+  host: process.env.JAM_PREVIEW_HOST ? process.env.JAM_PREVIEW_HOST : 'localhost',
+  // port: '8080',
   plugins: [
     {
       use: '@gridsome/source-contentful',
