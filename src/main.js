@@ -7,3 +7,11 @@ export default function (Vue, { router, head, isClient }) {
   // Set default layout as a global component
   Vue.component('Layout', DefaultLayout)
 }
+
+if (process.env.JAM_PREVIEW_HOST && module.hot) {
+  module.hot.addStatusHandler(status => {
+    if (status === 'apply') {
+      window.location.reload();
+    }
+  });
+}

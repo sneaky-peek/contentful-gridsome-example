@@ -6,27 +6,17 @@
 // To restart press CTRL + C in terminal and run `gridsome develop`
 
 module.exports = function (api) {
-  // console.log(api);
-  api.loadSource(({ addContentType }) => {
-    // Use the Data Store API here: https://gridsome.org/docs/data-store-api
-    console.log('Loadddddddd')
-  })
-
-  api.createPages(({ createPage }) => {
-    // Use the Pages API here: https://gridsome.org/docs/pages-api
-  })
-
   api.configureServer(app => {
-    app.get('/my-endpoint', (req, res) => {
-      console.log(api._app.store.store.collections);
-      api._app.store.store.collections
-        .filter((collection) => !collection.name.includes('core'))
-        .forEach((collection) => console.log(collection.find()));
-      res.send('Hello, world!')
-      // api._app.init();
-      setTimeout(() => {
-        api._app.bootstrap();
-      },2000);
+    app.get('/refresh', async (req, res) => {
+      Object.keys(api._app.store.collections).forEach(key => emptyCollection(api._app.store.collections[key]));
+      await api._app.loadSources();
+      await api._app.createPages();
+      await api._app.broadcast('New content', true);
+      res.send('Refreshing');
     })
   })
+}
+
+function emptyCollection(collection) {
+  collection.data().forEach(node => collection.removeNode(node.id));
 }
