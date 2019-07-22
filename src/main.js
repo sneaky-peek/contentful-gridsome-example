@@ -8,7 +8,7 @@ export default function (Vue, { router, head, isClient }) {
   Vue.component('Layout', DefaultLayout)
 }
 
-if (process.env.JAM_PREVIEW_HOST && module.hot) {
+if (process.env.GRIDSOME_JAM_PREVIEW && module.hot) {
   module.hot.addStatusHandler(status => {
     if (status === 'apply') {
       window.location.reload();
